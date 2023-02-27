@@ -1,11 +1,11 @@
 const { spawn } = require("child_process");
 const { createInterface } = require("readline");
 
-const vite = spawn("npm", ["run", "start"]);
+const vite = spawn("npm", ["run", "dev"], { cwd: process.cwd(), shell: true });
 let electron;
 vite.stdout.on("data", (data) => {
     const str = data.toString();
-    if (str.includes("webpack compiled successfully")) {
+    if (str.includes("webpack compiled")) {
         relaunchElectron();
     }
 });
@@ -23,7 +23,7 @@ const relaunchElectron = () => {
         }
 
     }
-    electron = spawn("npm", ["run", "electron:start"]);
+    electron = spawn("npm", ["run", "electron:start"], { cwd: process.cwd(), shell: true });
     electron.stdout.pipe(process.stdout);
     electron.stderr.pipe(process.stderr);
 }
