@@ -17,16 +17,14 @@ const relaunchElectron = () => {
     if (electron) {
         if (process.platform === "win32") {
             spawn("taskkill", ["/pid", electron.pid, "/f", "/t"]);
-        }
-        else {
+        } else {
             electron.kill("SIGINT");
         }
-
     }
     electron = spawn("npm", ["run", "electron:start"], { cwd: process.cwd(), shell: true });
     electron.stdout.pipe(process.stdout);
     electron.stderr.pipe(process.stderr);
-}
+};
 
 let rl = createInterface(process.stdin, process.stdout);
 
