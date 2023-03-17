@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1000" height="1000" viewBox="0 0 1000 1000">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: #ffb6c3;
+      }
+
+      .cls-2, .cls-3 {
+        fill-rule: evenodd;
+      }
+
+      .cls-2 {
+        filter: url(#filter);
+      }
+
+      .cls-3 {
+        fill: #3a3939;
+      }
+    </style>
+    <filter id="filter" x="324.5" y="94.031" width="570.688" height="812.438" filterUnits="userSpaceOnUse">
+      <feFlood result="flood" flood-color="#3a3939"/>
+      <feComposite result="composite" operator="in" in2="SourceGraphic"/>
+      <feBlend result="blend" in2="SourceGraphic"/>
+    </filter>
+  </defs>
+  <rect id="Rectangle_arrondi_3" data-name="Rectangle arrondi 3" class="cls-1" x="26.344" y="26.344" width="947.812" height="947.812" rx="60" ry="60"/>
+  <path id="Forme_1" data-name="Forme 1" class="cls-2" d="M468.012,94.042L895.175,521.206,468.012,906.459,329.385,767.832l265.97-265.97S328.1,227.511,324.549,231.056,468.012,94.042,468.012,94.042Z"/>
+  <path class="cls-3" d="M324.5,500.25l94.6-94.6,94.6,94.6-94.6,94.605Z"/>
+  <path id="Rectangle_1_copie" data-name="Rectangle 1 copie" class="cls-3" d="M176.68,500.25l59.225-59.224L295.13,500.25l-59.225,59.225Z"/>
+</svg>

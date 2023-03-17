@@ -7,16 +7,21 @@ const createWindow = () => {
         width: 800,
         height: 600,
         show: false,
-        backgroundColor: 'black',
+        backgroundColor: '#3A3939',
         webPreferences: {
-            preload: join(__dirname, "preload.js")
-        }
+            preload: join(__dirname, "preload.js"),
+            nodeIntegration: false,
+            worldSafeExecuteJavascript: true,
+            contextIsolation: true,
+        },
+        icon: "public/favicon.ico"
     })
     if (process.env.NODE_ENV === "production") {
         win.loadFile('dist/index.html')
     } else {
         win.loadURL("http://localhost:3000");
     }
+    win.maximize();  
     // win.once("ready-to-show", () => {
     //     win.show();
     // })
