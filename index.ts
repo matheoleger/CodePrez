@@ -1,6 +1,5 @@
-const { app, BrowserWindow } = require("electron");
-const { readdir, readFile, writeFile } = require("fs/promises");
-const { join } = require("path");
+import { app, BrowserWindow } from "electron";
+import { join } from "path";
 
 const createWindow = () => {
     const win = new BrowserWindow({
@@ -9,9 +8,8 @@ const createWindow = () => {
         show: false,
         backgroundColor: "#3A3939",
         webPreferences: {
-            preload: join(__dirname, "preload.js"),
+            preload: join(__dirname, "src/preload/preload.js"),
             nodeIntegration: false,
-            worldSafeExecuteJavascript: true,
             contextIsolation: true,
         },
         icon: "public/favicon.ico",
@@ -22,9 +20,6 @@ const createWindow = () => {
         win.loadURL("http://localhost:3000");
     }
     win.maximize();
-    // win.once("ready-to-show", () => {
-    //     win.show();
-    // })
 
     return win;
 };
@@ -40,10 +35,3 @@ app.on("window-all-closed", () => {
         app.quit();
     }
 });
-
-app.on("activate", () => {
-    if (BrowserWindow.getAllWindows().length === 0) {
-        createWindow();
-    }
-});
-initialize();

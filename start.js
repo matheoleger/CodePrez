@@ -1,17 +1,28 @@
 const { spawn } = require("child_process");
 const { createInterface } = require("readline");
 
-const vite = spawn("npm", ["run", "dev"], { cwd: process.cwd(), shell: true });
+const react = spawn("npm", ["run", "dev"], { cwd: process.cwd(), shell: true });
 let electron;
-vite.stdout.on("data", (data) => {
+react.stdout.on("data", (data) => {
     const str = data.toString();
-    if (str.includes("webpack compiled")) {
-        relaunchElectron();
+    if (str.includes("You can now view code-prez in the browser.")) {
+        relaunch();
     }
 });
 
-vite.stdout.pipe(process.stdout);
-vite.stderr.pipe(process.stderr);
+react.stdout.pipe(process.stdout);
+react.stderr.pipe(process.stderr);
+
+const relaunch = () => {
+    const compileTypescript = spawn("npm", ["run", "typescript:compiled"], { cwd: process.cwd(), shell: true });
+    compileTypescript.stdout.pipe(process.stdout);
+    compileTypescript.stderr.pipe(process.stderr);
+
+    compileTypescript.on("exit", () => {
+        relaunchElectron();
+    });
+
+}
 
 const relaunchElectron = () => {
     if (electron) {
@@ -31,7 +42,7 @@ let rl = createInterface(process.stdin, process.stdout);
 const reloadLoop = () => {
     const answer = rl.question("", (answer) => {
         if (answer === "rl") {
-            relaunchElectron();
+            relaunch();
         }
         reloadLoop();
     });
