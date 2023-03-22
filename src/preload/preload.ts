@@ -1,5 +1,3 @@
 import { contextBridge, ipcRenderer } from "electron";
 
-contextBridge.exposeInMainWorld("api",{
-
-});
+contextBridge.exposeInMainWorld("api", {});
