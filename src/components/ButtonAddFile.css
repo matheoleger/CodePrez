@@ -1,0 +1,38 @@
+.file-info {
+    background-color: rgba(199, 198, 198, 0.076) ;
+    width:300px;
+    padding : 0.5em 1em;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: self-end;
+    justify-content: space-between;
+    align-items:center;
+}
+
+.file-info>button{
+    text-align: center;
+    width: 40px;
+    height: 40px;
+    padding-top: 5px;
+    border:none;
+    background-color: var(--light-grey);
+    border-radius: 10px;
+    color:white;
+}
+.file-info>button:hover{
+    background-color: var(--pink);
+    cursor: pointer;
+}
+
+.label-choose-file {
+    color:var(--light-grey);
+    font-style: italic;
+}
+
+.label-filename {
+    color: var(--pink);
+    font-weight: 800;
+
+}
