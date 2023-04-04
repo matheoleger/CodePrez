@@ -1,12 +1,24 @@
 import React from 'react';
 import { NewPrez } from './components/NewPrez';
 import './assets/css/App.css';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { SideBar } from './components/SideBar';
+import { Home } from './components/Home';
+import { Presentation } from './components/Presentation';
 
 function App() {
   return (
-    <div
-      style={{ backgroundColor: '#3A3939', width: '100%', height: '100%' }}
-    ></div>
+    <div style={{ backgroundColor: '#3A3939', width: '100%', height: '100%' }}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" Component={SideBar}>
+            <Route path="/" Component={Home}></Route>
+            <Route path="/add" Component={NewPrez}></Route>
+            <Route path="/prez" Component={Presentation}></Route>
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </div>
   );
 }
 

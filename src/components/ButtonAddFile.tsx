@@ -1,5 +1,5 @@
 import { FC, MouseEventHandler } from 'react';
-import './ButtonAddFile.css';
+import '../assets/css/ButtonAddFile.css';
 interface ButtonAddFileProps {
   title: string;
   action: MouseEventHandler;
