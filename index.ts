@@ -1,6 +1,8 @@
 import { app, BrowserWindow } from 'electron';
 import { join } from "path";
 
+import { openCodePrezArchive } from './src/main/openAndCloseCodePrezFiles';
+
 const createWindow = () => {
     const win = new BrowserWindow({
         width: 800,
@@ -15,11 +17,19 @@ const createWindow = () => {
         icon: "public/favicon.ico"
     })
     if (process.env.NODE_ENV === "production") {
-        win.loadFile('dist/index.html')
+        win.loadFile('../build/index.html')
     } else {
         win.loadURL("http://localhost:3000");
     }
     win.maximize();  
+
+    win.once("ready-to-show",async () => {
+        win.show();
+
+        const presentationData = await openCodePrezArchive("./src/main/example.codeprez");
+
+        win.webContents.send("set-codeprez-data", presentationData)
+    });
 
     return win;
 }
@@ -27,7 +37,6 @@ const createWindow = () => {
 const initialize = async () => {
     await app.whenReady();
     const win = createWindow();
-    win.show();
 }
 
 app.on('window-all-closed', () => {
