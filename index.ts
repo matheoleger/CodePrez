@@ -1,5 +1,7 @@
 import { app, BrowserWindow } from 'electron';
 import { join } from "path";
+import { createArchive } from './src/main/createArchive';
+import { openFileDialog, saveFileDialog } from './src/main/dialogs';
 
 import { openCodePrezArchive } from './src/main/openAndCloseCodePrezFiles';
 
@@ -21,7 +23,19 @@ const createWindow = () => {
     } else {
         win.loadURL("http://localhost:3000");
     }
-    win.maximize();  
+    win.maximize();
+
+    // Add File
+    win.webContents.ipc.on('open-dialog', async (e, data) => {
+        const file = await openFileDialog(data.type);
+        win.webContents.send('set-file', file);
+    })
+
+    // Create .CodePrez with files
+    win.webContents.ipc.on('create-codeprez', async (e, data) => {
+        const file = (await saveFileDialog())!;
+        await createArchive(data, file);
+    })
 
     win.once("ready-to-show",async () => {
         win.show();
