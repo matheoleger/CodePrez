@@ -1,9 +1,11 @@
 .new-prez {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-around;
+    align-items: center;
     color: white;
-    margin:100px;
+    padding: 3em 1em;
+    padding-bottom: 0;
 }
 
 .principal-infos {
