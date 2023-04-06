@@ -14,15 +14,17 @@ react.stdout.pipe(process.stdout);
 react.stderr.pipe(process.stderr);
 
 const relaunch = () => {
-    const compileTypescript = spawn("npm", ["run", "typescript:compiled"], { cwd: process.cwd(), shell: true });
+    const compileTypescript = spawn("npm", ["run", "typescript:compiled"], {
+        cwd: process.cwd(),
+        shell: true,
+    });
     compileTypescript.stdout.pipe(process.stdout);
     compileTypescript.stderr.pipe(process.stderr);
 
     compileTypescript.on("exit", () => {
         relaunchElectron();
     });
-
-}
+};
 
 const relaunchElectron = () => {
     if (electron) {
@@ -32,7 +34,10 @@ const relaunchElectron = () => {
             electron.kill("SIGINT");
         }
     }
-    electron = spawn("npm", ["run", "electron:start"], { cwd: process.cwd(), shell: true });
+    electron = spawn("npm", ["run", "electron:start"], {
+        cwd: process.cwd(),
+        shell: true,
+    });
     electron.stdout.pipe(process.stdout);
     electron.stderr.pipe(process.stderr);
 };

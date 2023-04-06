@@ -1,3 +1,4 @@
+import { readFile } from "fs/promises";
 import hljs from "highlight.js";
 
 var md = markdownHighlight();
@@ -26,3 +27,12 @@ export function markdownHighlight() {
         },
     });
 }
+
+export const readFileMd = async () => {
+    /* read file in project directory */
+    console.log("readFile");
+
+    const file = await readFile("./presentation.md", "utf-8");
+    console.log("file");
+    return file;
+};

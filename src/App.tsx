@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "./assets/logo.svg";
 import "./assets/css/App.css";
-
 import "highlight.js/styles/github.css";
 import { markdownHighlight } from "./renderer/utils/utils";
 
@@ -20,10 +19,22 @@ function App() {
   \`\`\`
 `;
 
-    var result3 = markdownHighlight().render(
+    const [result, setResult] = useState("test");
+
+    /* function onclick submit window.api... */
+
+    const submit = () => {
+        console.log("submit");
+        window.api.readFileMarkdown(setResult);
+        console.log(result);
+    };
+
+    /* window.api.readFileMarkdown(setResult); */
+
+    /* var result3 = markdownHighlight().render(
         markdown +
             "# Hello World! \n ## This is a subtitle --- Oui ::: section ### This is a sub-subtitle"
-    );
+    ); */
 
     return (
         <div className="App">
@@ -32,7 +43,7 @@ function App() {
                 <p>
                     Edit <code>src/App.tsx</code> and save to reload.
                 </p>
-                <div dangerouslySetInnerHTML={{ __html: result3 }} />
+                <div dangerouslySetInnerHTML={{ __html: result }} />
 
                 <a
                     className="App-link"
@@ -42,6 +53,7 @@ function App() {
                 >
                     Learn React
                 </a>
+                <button onClick={submit}>test</button>
             </header>
         </div>
     );

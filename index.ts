@@ -1,6 +1,8 @@
 import { app, BrowserWindow } from "electron";
 import { join } from "path";
 
+import { readFileMd, markdownHighlight } from "./src/main/ReadFile";
+
 const createWindow = () => {
     const win = new BrowserWindow({
         width: 800,
@@ -19,6 +21,7 @@ const createWindow = () => {
     } else {
         win.loadURL("http://localhost:3000");
     }
+
     win.maximize();
 
     return win;
@@ -27,6 +30,8 @@ const createWindow = () => {
 const initialize = async () => {
     await app.whenReady();
     const win = createWindow();
+    win.webContents.send("read-file-markdown", await readFileMd());
+
     win.show();
 };
 
@@ -35,3 +40,10 @@ app.on("window-all-closed", () => {
         app.quit();
     }
 });
+
+app.on("activate", () => {
+    if (BrowserWindow.getAllWindows().length === 0) {
+        createWindow();
+    }
+});
+initialize();
