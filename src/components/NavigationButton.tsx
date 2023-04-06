@@ -15,6 +15,7 @@ export const NavigationButton: FC<NavigationButtonProp> = ({
   };
 
   const launchPresentation = () => {
+    console.log("launchPrez");
     navigate('/prez');
   };
   if (goTo === 'prez') {

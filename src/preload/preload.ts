@@ -11,12 +11,17 @@ export interface CreationCodePrezProps {
 }
 
 export type ContextBridgeApi = {
+    getPresentationData: (setPresentationData: Function) => void,
     sendExecuteCommand: (command: string) => void,
     openFileDialog: (type: "md" | "css" | "env" | "assets", callback: Function) => null;
     createCodePrez: ({ mdFilePath, cssFilePath, envDirectoryPath, assetsDirectoryPath, title, duration, participants }: CreationCodePrezProps) => null;
 }
 
-contextBridge.exposeInMainWorld("api", {
+contextBridge.exposeInMainWorld("api",{
+    getPresentationData: (setPresentationData: Function) => {
+        ipcRenderer.send("open-presentation", { type: "codeprez" });
+        ipcRenderer.once("set-codeprez-data", (event, data) => setPresentationData(data))
+    },
     sendExecuteCommand: (command: string) => {
         ipcRenderer.send("execute-command", { command })
     },
