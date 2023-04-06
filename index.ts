@@ -2,7 +2,6 @@ import { app, BrowserWindow } from "electron";
 import { join } from "path";
 import { createArchive } from "./src/main/createArchive";
 import { openFileDialog, saveFileDialog } from "./src/main/dialogs";
-import { Slide } from "./src/components/Slide";
 
 import {
     deleteCodePrezTempFolder,
@@ -49,12 +48,7 @@ const createWindow = () => {
         if (!archivePath) return;
 
         const presentationData = await openCodePrezArchive(archivePath);
-        const slides =
-            presentationData?.presentationFileContent?.split(/^---$/gm);
-        const createSection = slides?.map((slide, index) => {
-            const dataMd: string = markdownHighlight().render(slide);
-            return dataMd;
-        });
+        const createSection = separate(presentationData);
 
         if (!presentationData) {
             return null;
@@ -76,6 +70,14 @@ const createWindow = () => {
     return win;
 };
 
+const separate = (data: any) => {
+    const slides = data?.presentationFileContent?.split(/^---$/gm);
+    const createSection = slides?.map((slide: any, index: any) => {
+        const dataMd: string = markdownHighlight().render(slide);
+        return dataMd;
+    });
+    return createSection;
+};
 const initialize = async () => {
     await app.whenReady();
     const win = createWindow();
