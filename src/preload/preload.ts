@@ -19,6 +19,7 @@ export type ContextBridgeApi = {
 
 contextBridge.exposeInMainWorld("api",{
     getPresentationData: (setPresentationData: Function) => {
+        ipcRenderer.send("open-presentation", { type: "codeprez" });
         ipcRenderer.once("set-codeprez-data", (event, data) => setPresentationData(data))
     },
     sendExecuteCommand: (command: string) => {

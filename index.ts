@@ -3,7 +3,7 @@ import { join } from "path";
 import { createArchive } from './src/main/createArchive';
 import { openFileDialog, saveFileDialog } from './src/main/dialogs';
 
-import { openCodePrezArchive } from './src/main/openAndCloseCodePrezFiles';
+import { deleteCodePrezTempFolder, openCodePrezArchive } from './src/main/openAndCloseCodePrezFiles';
 
 const createWindow = () => {
     const win = new BrowserWindow({
@@ -37,13 +37,25 @@ const createWindow = () => {
         await createArchive(data, file);
     })
 
+    // Open presentation .codeprez
+    win.webContents.ipc.on('open-presentation', async (e, data) => {
+        const archivePath = await openFileDialog(data.type);
+
+        if(!archivePath) return;
+
+        const presentationData = await openCodePrezArchive(archivePath);
+        win.webContents.send("set-codeprez-data", presentationData)
+    })
+
     win.once("ready-to-show",async () => {
         win.show();
 
-        const presentationData = await openCodePrezArchive("./src/main/example.codeprez");
+        // const presentationData = await openCodePrezArchive("./src/main/example.codeprez");
 
-        win.webContents.send("set-codeprez-data", presentationData)
+        // win.webContents.send("set-codeprez-data", presentationData)
     });
+
+    win.on('close', () => deleteCodePrezTempFolder())
 
     return win;
 }

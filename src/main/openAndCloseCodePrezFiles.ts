@@ -2,6 +2,7 @@ import decompress from "decompress";
 import { app } from "electron";
 
 import path from "path";
+import fs from "fs";
 
 const tempPath = app.getPath("temp")
 
@@ -28,7 +29,13 @@ export const openCodePrezArchive = async (archivePath: string) => {
     const plainPresentationConfig = files.find((file) => file.path == "config.json")?.data.toString();
     const presentationConfig = JSON.parse(plainPresentationConfig ?? "{}");
 
-    // const presentationPath = `${tempPath}/codeprez`; //useful for assets, style.css and env
-
     return {presentationConfig, presentationFileContent, presentationPath};
+}
+
+export const deleteCodePrezTempFolder = () => {
+    const presentationPath = path.join(tempPath, "codeprez");
+
+    fs.rmdir(presentationPath, (err) => {
+        console.error(err);
+    })
 }

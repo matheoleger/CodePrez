@@ -18,7 +18,7 @@ export const saveFileDialog = async () => {
     }
 }
 
-export const openFileDialog = async (type: "md" | "assets" | "env" | "css") => {
+export const openFileDialog = async (type: "md" | "assets" | "env" | "css" | "codeprez") => {
     let filterToApply: { name: string, extensions: string[] } | null;
     switch (type) {
         case "md":
@@ -26,6 +26,9 @@ export const openFileDialog = async (type: "md" | "assets" | "env" | "css") => {
             break;
         case "css":
             filterToApply = { name: "Fichier CSS", extensions: ['css'] }
+            break;
+        case "codeprez":
+            filterToApply = { name: "Archive CodePrez", extensions: ['codeprez'] }
             break;
         default:
             filterToApply = null;
