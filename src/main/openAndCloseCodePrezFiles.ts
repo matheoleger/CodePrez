@@ -38,7 +38,11 @@ export const openCodePrezArchive = async (archivePath: string) => {
         ?.data.toString();
     const presentationConfig = JSON.parse(plainPresentationConfig ?? "{}");
 
-    return { presentationConfig, presentationFileContent, presentationPath };
+    const presentationStyle = files
+        .find((file) => file.path == "style.css")
+        ?.data.toString();
+
+    return { presentationConfig, presentationFileContent, presentationPath, presentationStyle };
 };
 
 export const deleteCodePrezTempFolder = () => {

@@ -27,15 +27,17 @@ body {
 
   background-color: var(--background-color);
   color: var(--white);
+  overflow: hidden;
 }
 
-h1 {
+.new-prez h1, .home h1, .presentation-title {
   border:#B4B4B4 1px solid;
   text-align: center;
   color: white;
   padding:0.5em 1em;
   margin:10px;
   border-radius: 10px;
+  text-decoration: none;
 }
 
 

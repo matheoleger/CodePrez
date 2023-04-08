@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 interface NavigationButtonProp {
-  goTo: 'prez' | 'add';
+  goTo: 'prez' | 'add' |'viewer';
   withIcon?: boolean;
 }
 
@@ -14,16 +14,22 @@ export const NavigationButton: FC<NavigationButtonProp> = ({
     navigate('/add');
   };
 
-  const launchPresentation = () => {
-    console.log("launchPrez");
-    navigate('/prez');
+  const openPresentation = () => {
+    window.api.getPresentationData(navigateToPresentation);
   };
+
+  const navigateToPresentation = (data: PresentationData) => {
+    navigate('/prez', {
+      state: data
+    });
+  }
+
   if (goTo === 'prez') {
     return (
-      <button onClick={launchPresentation} className="go-to-prez-button">
+      <button onClick={openPresentation} className="go-to-prez-button">
         Ouvrir une présentation
         {withIcon && (
-          <span className="material-symbols-outlined">play_arrow</span>
+          <span className="material-symbols-outlined">slide_library</span>
         )}
       </button>
     );
@@ -36,6 +42,15 @@ export const NavigationButton: FC<NavigationButtonProp> = ({
         )}
       </button>
     );
+  } else if (goTo == "viewer") {
+    return (
+      <button onClick={createCodePrez} className="go-to-viewer-button">
+        Lancer la présentation
+        {withIcon && (
+          <span className="material-symbols-outlined">play_arrow</span>
+        )}
+      </button>
+    )
   }
   return <></>;
 };

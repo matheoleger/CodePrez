@@ -2,6 +2,7 @@ type PresentationData = {
     presentationConfig: PresentationConfig;
     presentationFileContent: string[] | string;
     presentationPath: string;
+    presentationStyle: string;
 };
 
 type PresentationConfig = {

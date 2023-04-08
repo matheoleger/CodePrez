@@ -1,0 +1,22 @@
+.slide-container {
+    height: 100vh;
+    border-radius: 10px;
+    box-shadow: 0 0 20px 10px rgba(0, 0, 0, 0.2);
+}
+
+.slide-container pre {
+    border-radius: 10px;
+    height: 100%;
+}
+
+.slide-container code {
+    height: 100%;
+}
+
+.scale-preview {
+    transform : scale(0.85);
+}
+
+.scale-sidebar {
+    transform : scale(0.3);
+}
