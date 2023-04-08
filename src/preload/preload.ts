@@ -7,17 +7,17 @@ export interface CreationCodePrezProps {
     assetsDirectoryPath: string,
     title: string,
     duration: string,
-    participants: string,
+    authors: string[],
 }
 
 export type ContextBridgeApi = {
     getPresentationData: (setPresentationData: Function) => void,
     sendExecuteCommand: (command: string) => void,
     openFileDialog: (type: "md" | "css" | "env" | "assets", callback: Function) => null;
-    createCodePrez: ({ mdFilePath, cssFilePath, envDirectoryPath, assetsDirectoryPath, title, duration, participants }: CreationCodePrezProps) => null;
+    createCodePrez: ({ mdFilePath, cssFilePath, envDirectoryPath, assetsDirectoryPath, title, duration, authors }: CreationCodePrezProps) => null;
 }
 
-contextBridge.exposeInMainWorld("api",{
+contextBridge.exposeInMainWorld("api", {
     getPresentationData: (setPresentationData: Function) => {
         ipcRenderer.send("open-presentation", { type: "codeprez" });
         ipcRenderer.once("set-codeprez-data", (event, data) => setPresentationData(data))
@@ -29,8 +29,8 @@ contextBridge.exposeInMainWorld("api",{
         ipcRenderer.send("open-dialog", { type });
         ipcRenderer.once("set-file", (e, data) => callback(data));
     },
-    createCodePrez: ({ mdFilePath, cssFilePath, envDirectoryPath, assetsDirectoryPath, title, duration, participants }: CreationCodePrezProps) => {
+    createCodePrez: ({ mdFilePath, cssFilePath, envDirectoryPath, assetsDirectoryPath, title, duration, authors }: CreationCodePrezProps) => {
 
-        ipcRenderer.send("create-codeprez", { mdFilePath, cssFilePath, envDirectoryPath, assetsDirectoryPath, title, duration, participants })
+        ipcRenderer.send("create-codeprez", { mdFilePath, cssFilePath, envDirectoryPath, assetsDirectoryPath, title, duration, authors })
     }
 });

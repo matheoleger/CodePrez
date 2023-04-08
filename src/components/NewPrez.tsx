@@ -6,7 +6,7 @@ import { ButtonAddFile } from './ButtonAddFile';
 export const NewPrez = () => {
   const [title, setTitle] = useState('');
   const [duration, setDuration] = useState('');
-  const [participants, setParticipants] = useState('');
+  const [authors, setAuthors] = useState('');
 
   const [markdownFile, setMarkdownFile] = useState<string>('');
   const [cssFile, setCssFile] = useState<string>('');
@@ -16,8 +16,8 @@ export const NewPrez = () => {
   const [error, setError] = useState<boolean>(false);
 
   const getFileName = (filePath: string) => {
-    const arrayString = filePath.split('/');
-    return arrayString[arrayString.length - 1];
+    // eslint-disable-next-line no-useless-escape
+    return filePath.replace(/^.*(\\|\/|\:)/, '');
   };
 
   const openMarkdownFile = () => {
@@ -37,17 +37,22 @@ export const NewPrez = () => {
   };
 
   const createCodePrez = () => {
+    const arrayAuthors = authors.split(',').map((author) => {
+      return author.trim();
+    });
+
     if (!cssFile || !markdownFile || !title) {
       setError(true);
       return;
     }
+
     window.api.createCodePrez({
       assetsDirectoryPath: assetsFile,
       cssFilePath: cssFile,
       duration,
       envDirectoryPath: envFile,
       mdFilePath: markdownFile,
-      participants,
+      authors: arrayAuthors,
       title,
     });
   };
@@ -66,21 +71,21 @@ export const NewPrez = () => {
           />
         </div>
         <div className="info">
-          <label>Durée</label>
+          <label>Durée (en min.)</label>
           <input
-            type="text"
+            type="number"
             placeholder="Durée..."
             value={duration}
             onChange={(e) => setDuration(e.target.value)}
           />
         </div>
         <div className="info">
-          <label>Participants</label>
+          <label>Participants (séparer les noms avec une virgule)</label>
           <input
             type="text"
             placeholder="Participants..."
-            value={participants}
-            onChange={(e) => setParticipants(e.target.value)}
+            value={authors}
+            onChange={(e) => setAuthors(e.target.value)}
           />
         </div>
       </div>
