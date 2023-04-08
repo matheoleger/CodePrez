@@ -15,7 +15,7 @@ export const createArchive = async (data: CreationCodePrezProps, file: string) =
     const configContent = JSON.stringify({
         title: data.title,
         duration: data.duration,
-        participants: data.participants
+        authors: data.authors
     })
     await writeFile(join(tempPath, "config.json"), configContent, { encoding: "utf-8" });
 

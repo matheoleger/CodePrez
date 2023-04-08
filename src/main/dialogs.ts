@@ -9,7 +9,7 @@ export const saveFileDialog = async () => {
         filters: [
             {
                 name: "Codeprez",
-                extensions: [".codeprez"],
+                extensions: ["codeprez"],
             }
         ]
     })
