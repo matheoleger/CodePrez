@@ -22,6 +22,8 @@ const decompressCodePrezArchive = async (
 export const openCodePrezArchive = async (archivePath: string) => {
     const presentationPath = path.join(tempPath, "codeprez"); //useful for assets, style.css and env
 
+    deleteCodePrezTempFolder();
+
     const files = await decompressCodePrezArchive(
         archivePath,
         presentationPath
@@ -45,10 +47,13 @@ export const openCodePrezArchive = async (archivePath: string) => {
     return { presentationConfig, presentationFileContent, presentationPath, presentationStyle };
 };
 
-export const deleteCodePrezTempFolder = () => {
+export const deleteCodePrezTempFolder = async () => {
     const presentationPath = path.join(tempPath, "codeprez");
 
-    fs.rmdir(presentationPath, (err) => {
-        console.error(err);
-    });
+    try {
+        fs.rmSync(presentationPath, { recursive: true });
+    } catch(e) {
+        console.error(e);
+        return;
+    }
 };

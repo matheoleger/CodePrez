@@ -31,8 +31,8 @@ export const Presentation = () => {
               
               <div className="authors">
                 <h3>Créé par :</h3>
-                {presentationData?.presentationConfig.authors.map((author) => (
-                        <h3>{author}</h3>
+                {presentationData?.presentationConfig.authors.map((author, index) => (
+                        <h3 key={index}>{author}</h3>
                     ))}
               </div>
             </Slide>
