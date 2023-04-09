@@ -2,3 +2,13 @@
     overflow-y: auto;
     overflow-x: hidden;
 }
+
+.presentation-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.authors {
+    display: flex;
+}

@@ -13,7 +13,7 @@ export const Presentation = () => {
     useEffect(() => {
         // window.api.getPresentationData(setPresentationData);
         setPresentationData(state);
-    }, [useLocation()]);
+    }, [state]);
 
     return (
         <div className="presentation-page">
@@ -22,10 +22,20 @@ export const Presentation = () => {
                 type="text/css"
                 href={"codeprez:\\" + presentationData?.presentationPath + "\\style.css"}
             ></link> */}
-            <div>
+            <div className="presentation-header">
                 <h1 className="presentation-title">{presentationData?.presentationConfig.title}</h1>
                 <NavigationButton goTo="viewer" withIcon/>
             </div>
+            <Slide slideScale="preview">
+              <h1>{presentationData?.presentationConfig.title}</h1>
+              
+              <div className="authors">
+                <h3>Créé par :</h3>
+                {presentationData?.presentationConfig.authors.map((author) => (
+                        <h3>{author}</h3>
+                    ))}
+              </div>
+            </Slide>
             {Array.isArray(presentationData?.presentationFileContent) &&
                 presentationData?.presentationFileContent.map((slide, index) => (
                     <Slide key={index} slideScale="preview">

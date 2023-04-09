@@ -1,18 +1,10 @@
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import '../assets/css/SideBar.css';
 import CodePrezLogo from '../assets/logo.svg';
 import { NavigationButton } from './NavigationButton';
-import { Slide } from './Slide';
-import { useState, useEffect } from 'react';
-export const SideBar = () => {
-  const [presentationData, setPresentationData] = useState<PresentationData>();
-  
-  const navigate = useNavigate();
-  const {state} = useLocation();
 
-  useEffect(() => {
-    setPresentationData(state);
-  },[])
+export const SideBar = () => { 
+  const navigate = useNavigate();
 
   const home = () => {
     navigate('/');
@@ -27,15 +19,6 @@ export const SideBar = () => {
         <NavigationButton goTo="add" withIcon />
         <NavigationButton goTo="prez" withIcon />
         <div className="divider" />
-        {Array.isArray(presentationData?.presentationFileContent) &&
-            presentationData?.presentationFileContent.map((slide, index) => (
-                <Slide key={index} slideScale="sidebar">
-                    {slide}
-                </Slide>
-            ))}
-        <style>
-            {presentationData?.presentationStyle}
-        </style>
       </div>
       <Outlet></Outlet>
     </div>
