@@ -14,6 +14,7 @@ const createWindow = () => {
         width: 800,
         height: 600,
         show: false,
+        title: "CodePrez",
         backgroundColor: "#3A3939",
         webPreferences: {
             preload: join(__dirname, "src/preload/preload.js"),
@@ -22,8 +23,8 @@ const createWindow = () => {
         },
         icon: "public/favicon.ico",
     });
-    if (process.env.NODE_ENV === "production") {
-        win.loadFile("../build/index.html");
+    if (app.isPackaged) {
+        win.loadFile("./build/index.html");
     } else {
         win.loadURL("http://localhost:3000");
     }
