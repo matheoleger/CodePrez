@@ -55,7 +55,7 @@ export const createArchive = async (data: CreationCodePrezProps, file: string) =
         archive.directory(data.envDirectoryPath, 'env');
     }
     if (data.assetsDirectoryPath) {
-        archive.directory(data.assetsDirectoryPath, 'css');
+        archive.directory(data.assetsDirectoryPath, 'assets');
     }
 
     archive.finalize().then(() => {
