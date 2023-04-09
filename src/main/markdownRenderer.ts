@@ -110,10 +110,12 @@ const codeFileRendererRules = ({codeFilePath, href}: CodeFileRendererRulesArgume
     const file = fs.readFileSync(codeFilePath, { encoding: 'utf8' });    
     const lines = file.split("\n").slice(Number(startNumber)-1, Number(endNumber));
 
+    const codeToDisplay = (lineNumbers.length) ? lines.join("\n") : file;
+
     // I must use a concatenate string instead of `` because of tabulation and break line
     return (
         "<pre class='hljs'><code>" +
-            hljs.highlight(lines.join("\n"), {
+            hljs.highlight(codeToDisplay, {
                     language: fileExtension[1] || "",
                     ignoreIllegals: true,
                 }).value +

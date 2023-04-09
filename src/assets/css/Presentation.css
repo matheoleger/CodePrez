@@ -4,6 +4,14 @@
     width: 100%;
 }
 
+.presentation-page::-webkit-scrollbar {
+    width: 5px;
+}
+   
+.presentation-page::-webkit-scrollbar-thumb {
+    background: #666; 
+}
+
 .presentation-header {
     display: flex;
     justify-content: center;
