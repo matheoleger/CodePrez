@@ -17,11 +17,6 @@ export const Presentation = () => {
 
     return (
         <div className="presentation-page">
-            {/* <link
-                rel="stylesheet"
-                type="text/css"
-                href={"codeprez:\\" + presentationData?.presentationPath + "\\style.css"}
-            ></link> */}
             <div className="presentation-header">
                 <h1 className="presentation-title">{presentationData?.presentationConfig.title}</h1>
                 <NavigationButton goTo="viewer" withIcon/>

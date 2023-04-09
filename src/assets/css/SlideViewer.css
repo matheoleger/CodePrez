@@ -1,0 +1,14 @@
+.viewer-container {
+    height: 100vh;
+    scroll-snap-type: y mandatory;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+}
+
+.viewer-container:focus {
+    outline:none;
+}
+
+.viewer-slide {
+    scroll-snap-align: start;
+}

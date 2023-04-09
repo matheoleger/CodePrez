@@ -56,6 +56,19 @@ const createWindow = () => {
         win.webContents.send("set-codeprez-data", presentationData);
     });
 
+    //Set to maximize
+    win.webContents.ipc.on("maximized-app", () => {
+        console.log("maximized-app")
+        win.setFullScreen(false)
+    })
+
+    //Set to fullscreen
+    win.webContents.ipc.on("fullscreen-app", () => {
+        console.log("fullscreen-app")
+        win.setFullScreen(true)
+    })
+    
+
     win.once("ready-to-show", async () => {
         win.show();
 

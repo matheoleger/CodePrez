@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 interface NavigationButtonProp {
   goTo: 'prez' | 'add' |'viewer';
   withIcon?: boolean;
@@ -10,6 +10,8 @@ export const NavigationButton: FC<NavigationButtonProp> = ({
   withIcon,
 }) => {
   const navigate = useNavigate();
+  const {state} = useLocation();
+
   const createCodePrez = () => {
     navigate('/add');
   };
@@ -22,6 +24,10 @@ export const NavigationButton: FC<NavigationButtonProp> = ({
     navigate('/prez', {
       state: data
     });
+  }
+
+  const playPresentation = () => {
+    navigate('/viewer', {state: state});
   }
 
   if (goTo === 'prez') {
@@ -44,7 +50,7 @@ export const NavigationButton: FC<NavigationButtonProp> = ({
     );
   } else if (goTo == "viewer") {
     return (
-      <button onClick={createCodePrez} className="go-to-viewer-button">
+      <button onClick={playPresentation} className="go-to-viewer-button">
         Lancer la présentation
         {withIcon && (
           <span className="material-symbols-outlined">play_arrow</span>

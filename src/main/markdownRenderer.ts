@@ -75,7 +75,6 @@ const imageRendererRules = ({tokens, idx, options, env, self, presentationPath}:
     const regexForSrc = /\.\/assets/gm;
 
     const srcWithPresentationPath = (src?.match(regexForSrc)) ? path.join("codeprez:/", presentationPath, src) : src
-    console.log(srcWithPresentationPath);
     token.attrSet('src', srcWithPresentationPath || "")
 
     return self.renderToken(tokens, idx, options)

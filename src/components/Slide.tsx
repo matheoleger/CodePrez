@@ -3,15 +3,16 @@ import "../assets/css/Slide.css"
 
 type Props = {
   children: string | React.ReactElement[];
-  slideScale: "preview" | "sidebar" | "slideViewer"
+  slideScale: "preview" | "sidebar" | "slideViewer",
+  className?: string
 }
 
-export const Slide = ({ children, slideScale }: Props) => {
+export const Slide = ({ children, slideScale, className }: Props) => {
 
   if(typeof children == "string") {
     return (
       <section
-        className={`slide-container scale-${slideScale}`}
+        className={`slide-container scale-${slideScale} ${className ?? ""}`}
           dangerouslySetInnerHTML={{
               __html: children,
           }}
@@ -20,7 +21,7 @@ export const Slide = ({ children, slideScale }: Props) => {
     );
   } else {
     return (
-      <section className={`slide-container scale-${slideScale}`}>
+      <section className={`slide-container scale-${slideScale} ${className ?? ""}`}>
         {children}
       </section>
     )
