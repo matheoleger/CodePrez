@@ -15,13 +15,9 @@ export const Slide = ({ children, slideScale, className, setExecutedCommandOutpu
   const parser = new DOMParser();
 
   useEffect(() => {
-    // console.log(ref.current)
-
     const currentSection: HTMLElement | null = ref.current
 
     const executableCommandsPre = currentSection?.getElementsByClassName("executable-command")
-
-    // console.log(executableCommandsPre?.item(0));
 
     Array.from(executableCommandsPre ?? []).forEach((executableCommand) => {
       console.log(executableCommand);
@@ -34,7 +30,6 @@ export const Slide = ({ children, slideScale, className, setExecutedCommandOutpu
       button?.addEventListener("click", () => {
         if(!command) return;
 
-        // window.api.sendExecuteCommand(command)
         if(setExecutedCommandOutput) {
           window.api.sendExecuteCommand(command, (data: string) => setExecutedCommandOutput(data))
         }
