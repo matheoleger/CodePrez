@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { NewPrez } from "./components/NewPrez";
 import "./assets/css/App.css";
 import { HashRouter, Route, Routes } from "react-router-dom";
@@ -9,6 +9,11 @@ import { SlideViewer } from "./renderer/components/SlideViewer"
 import "highlight.js/styles/github.css";
 
 function App() {
+
+    useEffect(() => {
+        document.title = "CodePrez"
+    }, [])
+
     return (
         <div
             style={{
