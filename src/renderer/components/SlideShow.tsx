@@ -6,10 +6,12 @@ type Props = {
     content: string[];
     style?: string;
     slideScale: "slideViewer" | "preview" | "sidebar";
+    setExecutedCommandOutput?: Function;
 };
 
 export const SlideShow = (props: Props) => {
-    const { config, content, style, slideScale } = props;
+    const { config, content, style, slideScale, setExecutedCommandOutput } =
+        props;
 
     return (
         <>
@@ -37,6 +39,7 @@ export const SlideShow = (props: Props) => {
                                 ? `viewer-slide slide-${index + 1}`
                                 : `slide-${index + 1}`
                         }
+                        setExecutedCommandOutput={setExecutedCommandOutput}
                     >
                         {slide}
                     </Slide>

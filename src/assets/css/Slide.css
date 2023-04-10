@@ -48,6 +48,14 @@ pre code {
     overflow: auto;
 }
 
+pre code::-webkit-scrollbar {
+    width: 5px;
+}
+   
+pre code::-webkit-scrollbar-thumb {
+    background: #666; 
+}
+
 strong {
     margin: 0 4px;
 }

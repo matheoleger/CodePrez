@@ -8,6 +8,7 @@ import {
     openCodePrezArchive,
 } from "./src/main/openAndCloseCodePrezFiles";
 import { markdownRenderer } from "./src/main/markdownRenderer";
+import { executeCommand } from "./src/main/executeCommand";
 
 const createWindow = () => {
     const win = new BrowserWindow({
@@ -89,6 +90,10 @@ const createWindow = () => {
                 dual?.webContents.send("viewer-mode", { data });
             });
         }
+    });
+
+    win.webContents.ipc.on("execute-command", (e, data) => {
+        executeCommand(data); //Execute and send output data
     });
 
     win.once("ready-to-show", async () => {

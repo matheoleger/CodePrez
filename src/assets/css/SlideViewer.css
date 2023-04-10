@@ -25,3 +25,52 @@
     scroll-snap-align: start;
     box-sizing: border-box;
 }
+
+.executed-command-output {
+    position: absolute;
+    transition: all 0.5s ease-in-out;
+    top: calc(100vh - 1.7em);
+    z-index: 100;
+    width: 100%;
+    max-width: 100vw;
+    height: 150px;
+    background-color: var(--black-grey);
+}
+
+.executed-command-output pre {
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 10px;
+    display: flex;
+    align-items: start;
+    justify-content: flex-start;
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.executed-command-output pre::-webkit-scrollbar {
+    width: 5px;
+}
+   
+.executed-command-output pre::-webkit-scrollbar-thumb {
+    background: #666; 
+}
+
+.executed-command-output h5 {
+    cursor: pointer;
+    margin: 0;
+    padding-top: 0.5em;
+    background-color: var(--dark-grey);
+    width: 100%;
+}
+
+.executed-command-output h5:hover code {
+    transition: all 0.2s ease-in-out; 
+    color: var(--main-color);
+}
+
+.show-output {
+    top: calc(100vh - 150px);
+}
