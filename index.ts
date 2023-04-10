@@ -78,6 +78,7 @@ const createWindow = () => {
             dual = new BrowserWindow({
                 width: 800,
                 height: 600,
+                show: false,
                 x: externalDisplay.bounds.x + 50,
                 y: externalDisplay.bounds.y + 50,
                 webPreferences: {
@@ -87,7 +88,7 @@ const createWindow = () => {
                 },
             });
             if (app.isPackaged) {
-                win.loadFile("./build/index.html");
+                dual.loadFile("./build/index.html");
             } else {
                 dual.loadURL("http://localhost:3000");
             }
@@ -95,6 +96,7 @@ const createWindow = () => {
             dual.once("ready-to-show", async () => {
                 dual?.setFullScreen(true);
                 dual?.webContents.send("viewer-mode", { data });
+                dual?.show();
             });
         }
     });
