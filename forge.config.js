@@ -34,7 +34,11 @@ module.exports = {
     },
     {
       name: '@electron-forge/maker-flatpak',
-      config: {}
+      config: {
+        options: {
+          icon: './src/assets/favicon.png',
+        },
+      }
     }
   ],
 };

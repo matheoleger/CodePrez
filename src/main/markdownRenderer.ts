@@ -28,7 +28,7 @@ export function markdownRenderer(presentationPath: string) {
                 try {
                     if(lang == "bash") {
                         return (
-                            '<pre class="hljs"><code>' +
+                            '<pre class="hljs executable-command"><code class="command-to-execute">' +
                             hljs.highlight(str, {
                                 language: lang,
                                 ignoreIllegals: true,

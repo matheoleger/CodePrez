@@ -7,6 +7,10 @@ import { SlideShow } from './SlideShow';
 export const SlideViewer = () => {
     const [presentationData, setPresentationData] = useState<PresentationData>();
 
+    const [executedCommandOutput, setExecutedCommandOutput] = useState<string>();
+
+    const [showOuputCommand, setShowOuputCommand] = useState<boolean>(false);
+
     const {state} = useLocation()
     const navigate = useNavigate()
 
@@ -34,6 +38,12 @@ export const SlideViewer = () => {
 
     return (
         <div className="viewer-container" id="viewer-container" tabIndex={-1}>
+            <div className={`executed-command-output ${showOuputCommand ? "show-output" : ""}`}>
+                <h5 onClick={() => setShowOuputCommand(!showOuputCommand)}><code>&gt;_ COMMAND OUPUT</code></h5>
+                <pre>
+                    <span>{"> "}</span>{executedCommandOutput}
+                </pre>
+            </div>
             <SlideShow 
                 config={presentationData?.presentationConfig} 
                 content={
@@ -44,6 +54,7 @@ export const SlideViewer = () => {
                     }
                 style={presentationData?.presentationStyle}
                 slideScale="slideViewer"
+                setExecutedCommandOutput={setExecutedCommandOutput}
             />
         </div>
     );

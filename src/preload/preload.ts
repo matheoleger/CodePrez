@@ -14,9 +14,9 @@ export type ContextBridgeApi = {
     getPresentationData: (setPresentationData: Function) => void,
     setAppToFullScreen: () => void,
     setAppToMaximized: () => void,
-    sendExecuteCommand: (command: string) => void,
-    openFileDialog: (type: "md" | "css" | "env" | "assets", callback: Function) => null;
-    createCodePrez: ({ mdFilePath, cssFilePath, envDirectoryPath, assetsDirectoryPath, title, duration, authors }: CreationCodePrezProps) => null;
+    sendExecuteCommand: (command: string, callback: Function) => void,
+    openFileDialog: (type: "md" | "css" | "env" | "assets", callback: Function) => null,
+    createCodePrez: ({ mdFilePath, cssFilePath, envDirectoryPath, assetsDirectoryPath, title, duration, authors }: CreationCodePrezProps) => null,
 }
 
 contextBridge.exposeInMainWorld("api", {
@@ -30,8 +30,9 @@ contextBridge.exposeInMainWorld("api", {
     setAppToMaximized: () => {
         ipcRenderer.send("maximized-app")
     },
-    sendExecuteCommand: (command: string) => {
-        ipcRenderer.send("execute-command", { command })
+    sendExecuteCommand: (command: string, callback: Function) => {
+        ipcRenderer.send("execute-command", command)
+        ipcRenderer.once("executed-command-output", (e, data) => callback(data))
     },
     openFileDialog: (type: "md" | "css" | "env" | "assets", callback: Function) => {
         ipcRenderer.send("open-dialog", { type });

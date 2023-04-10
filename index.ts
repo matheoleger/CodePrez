@@ -8,6 +8,7 @@ import {
     openCodePrezArchive,
 } from "./src/main/openAndCloseCodePrezFiles";
 import { markdownRenderer } from "./src/main/markdownRenderer"
+import { executeCommand } from "./src/main/executeCommand";
 
 const createWindow = () => {
     const win = new BrowserWindow({
@@ -65,6 +66,10 @@ const createWindow = () => {
     //Set to fullscreen
     win.webContents.ipc.on("fullscreen-app", () => {
         win.setFullScreen(true)
+    })
+
+    win.webContents.ipc.on("execute-command", (e, data) => {
+         executeCommand(data); //Execute and send output data
     })
     
 
