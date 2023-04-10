@@ -7,6 +7,8 @@ import { SlideShow } from './SlideShow';
 export const SlideViewer = () => {
     const [presentationData, setPresentationData] = useState<PresentationData>();
 
+    const [executedCommandOutput, setExecutedCommandOutput] = useState<string>();
+
     const {state} = useLocation()
     const navigate = useNavigate()
 
@@ -44,7 +46,11 @@ export const SlideViewer = () => {
                     }
                 style={presentationData?.presentationStyle}
                 slideScale="slideViewer"
+                setExecutedCommandOutput={setExecutedCommandOutput}
             />
+            <pre>
+                {executedCommandOutput}
+            </pre>
         </div>
     );
 };

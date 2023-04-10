@@ -7,11 +7,12 @@ type Props = {
     config?: PresentationConfig,
     content: string[],
     style?: string,
-    slideScale: "slideViewer" | "preview" | "sidebar"
+    slideScale: "slideViewer" | "preview" | "sidebar",
+    setExecutedCommandOutput?: Function
 }
 
 export const SlideShow = (props: Props) => {
-    const {config, content, style, slideScale} = props;
+    const {config, content, style, slideScale, setExecutedCommandOutput} = props;
 
     return (
         <>
@@ -23,7 +24,12 @@ export const SlideShow = (props: Props) => {
               </div>
             </Slide>
             {Array.isArray(content) && content.map((slide, index) => (
-                <Slide key={index} slideScale={slideScale} className={slideScale == "slideViewer" ? `viewer-slide slide-${index+1}` : `slide-${index+1}`}>
+                <Slide 
+                    key={index} 
+                    slideScale={slideScale} 
+                    className={slideScale == "slideViewer" ? `viewer-slide slide-${index+1}` : `slide-${index+1}`}
+                    setExecutedCommandOutput={setExecutedCommandOutput}
+                >
                     {slide}
                 </Slide>
             ))}
