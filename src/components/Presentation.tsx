@@ -3,7 +3,6 @@ import "../assets/css/Presentation.css";
 import { useLocation } from "react-router-dom";
 import { NavigationButton } from "./NavigationButton";
 import { SlideShow } from "../renderer/components/SlideShow";
-//TODO: Search for a way to import the css file from the presentation folder and display images with the folder temp
 
 export const Presentation = () => {
     const [presentationData, setPresentationData] =

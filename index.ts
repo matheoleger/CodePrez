@@ -62,7 +62,9 @@ const createWindow = () => {
     //Set to maximize
     win.webContents.ipc.on("maximized-app", () => {
         win.setFullScreen(false);
-        dual?.close();
+        if (dual) {
+            dual?.close();
+        }
     });
 
     //Set to fullscreen
@@ -84,7 +86,12 @@ const createWindow = () => {
                     contextIsolation: true,
                 },
             });
-            dual.loadURL("http://localhost:3000");
+            if (app.isPackaged) {
+                win.loadFile("./build/index.html");
+            } else {
+                dual.loadURL("http://localhost:3000");
+            }
+
             dual.once("ready-to-show", async () => {
                 dual?.setFullScreen(true);
                 dual?.webContents.send("viewer-mode", { data });
