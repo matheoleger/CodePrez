@@ -1,13 +1,13 @@
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, protocol } from "electron";
 import { join } from "path";
 import { createArchive } from "./src/main/createArchive";
 import { openFileDialog, saveFileDialog } from "./src/main/dialogs";
-
+import url from "url"
 import {
     deleteCodePrezTempFolder,
     openCodePrezArchive,
 } from "./src/main/openAndCloseCodePrezFiles";
-import { markdownHighlight } from "./src/renderer/utils/utils";
+import { markdownRenderer } from "./src/main/markdownRenderer"
 
 const createWindow = () => {
     const win = new BrowserWindow({
@@ -48,14 +48,24 @@ const createWindow = () => {
         if (!archivePath) return;
 
         const presentationData = await openCodePrezArchive(archivePath);
-        const createSection = separate(presentationData);
+        const createSection = separateAndRender(presentationData);
 
-        if (!presentationData) {
-            return null;
-        }
+        if (!presentationData) return;
+
         presentationData.presentationFileContent = createSection || ([] as any);
         win.webContents.send("set-codeprez-data", presentationData);
     });
+
+    //Set to maximize
+    win.webContents.ipc.on("maximized-app", () => {
+        win.setFullScreen(false)
+    })
+
+    //Set to fullscreen
+    win.webContents.ipc.on("fullscreen-app", () => {
+        win.setFullScreen(true)
+    })
+    
 
     win.once("ready-to-show", async () => {
         win.show();
@@ -70,16 +80,29 @@ const createWindow = () => {
     return win;
 };
 
-const separate = (data: any) => {
+const separateAndRender = (data: any) => {
     const slides = data?.presentationFileContent?.split(/^---$/gm);
+
     const createSection = slides?.map((slide: any, index: any) => {
-        const dataMd: string = markdownHighlight().render(slide);
+        const dataMd: string = markdownRenderer(data.presentationPath).render(slide);
         return dataMd;
     });
     return createSection;
 };
+
 const initialize = async () => {
-    await app.whenReady();
+    await app.whenReady().then(() => {
+        protocol.registerFileProtocol('codeprez', (request, callback) => {
+            try {
+                const filePath = url.fileURLToPath('file://' + request.url.slice('codeprez:/'.length))
+                callback(filePath)
+            }
+            catch (error) {
+                console.error(error)
+                callback("404")
+            }
+        })
+    });
     const win = createWindow();
 };
 

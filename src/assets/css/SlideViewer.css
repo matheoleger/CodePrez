@@ -1,0 +1,27 @@
+.viewer-container {
+    height: 100vh;
+    scroll-snap-type: y mandatory;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+
+    -ms-overflow-style: none;
+    scrollbar-width: none; /* Firefox */
+}
+
+.viewer-container::-webkit-scrollbar {
+    width: 5px;
+}
+   
+.viewer-container::-webkit-scrollbar-thumb {
+    background: #666; 
+}
+
+.viewer-container:focus {
+    outline:none;
+}
+
+.viewer-slide {
+    scroll-snap-align: start;
+    box-sizing: border-box;
+}

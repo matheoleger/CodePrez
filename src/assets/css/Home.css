@@ -28,3 +28,15 @@
     color: var(--pink);
     border-color: var(--pink);
 }
+
+.go-to-viewer-button {
+    color:var(--black-grey);
+    border-color: var(--black-grey);
+    background-color: var(--pink);
+}
+
+.go-to-viewer-button:hover {
+    background-color: var(--black-grey);
+    color: var(--pink);
+    border-color: var(--pink);
+}
