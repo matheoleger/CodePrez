@@ -5,15 +5,14 @@ import { HashRouter, Route, Routes } from "react-router-dom";
 import { SideBar } from "./components/SideBar";
 import { Home } from "./components/Home";
 import { Presentation } from "./components/Presentation";
-import { SlideViewer } from "./renderer/components/SlideViewer"
+import { SlideViewer } from "./renderer/components/SlideViewer";
 import "highlight.js/styles/github.css";
+import { DualScreen } from "./renderer/components/DualScreen";
 
 function App() {
-
     useEffect(() => {
-        document.title = "CodePrez"
-    }, [])
-
+        document.title = "CodePrez";
+    }, []);
     return (
         <div
             style={{
@@ -23,8 +22,8 @@ function App() {
             }}
         >
             <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"
+                rel="stylesheet"
+                href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"
             />
             <HashRouter>
                 <Routes>
@@ -34,6 +33,7 @@ function App() {
                         <Route path="/prez" Component={Presentation}></Route>
                     </Route>
                     <Route path="/viewer" Component={SlideViewer}></Route>
+                    <Route path="/dualScreen" Component={DualScreen}></Route>
                 </Routes>
             </HashRouter>
         </div>

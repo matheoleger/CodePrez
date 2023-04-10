@@ -9,8 +9,14 @@
     "email": "matheo.leger@ynov.com"
   },
   "contributors": [
-    {"name": "Olivia MOREAU", "email": "olivia.moreau@ynov.com"},
-    {"name": "Elouan DUMONT", "email": "elouan.dumont@ynov.com"}
+    {
+      "name": "Olivia MOREAU",
+      "email": "olivia.moreau@ynov.com"
+    },
+    {
+      "name": "Elouan DUMONT",
+      "email": "elouan.dumont@ynov.com"
+    }
   ],
   "repository": {
     "url": "https://github.com/matheoleger/CodePrez"
@@ -37,6 +43,7 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.10.0",
     "react-scripts": "5.0.1",
+    "react-timer-hook": "^3.0.5",
     "typescript": "^4.4.2",
     "web-vitals": "^2.1.0"
   },
@@ -51,10 +58,9 @@
     "forge:start": "electron-forge start",
     "package": "yarn run build && npx tsc && electron-forge package",
     "make": "yarn run build && npx tsc && electron-forge make",
-    "make:win" : "electron-forge make --platform=\"win32\"",
-    "make:linux" : "electron-forge make --platform=\"linux\"",
-    "make:mac" : "electron-forge make --platform=\"darwin\""
-
+    "make:win": "electron-forge make --platform=\"win32\"",
+    "make:linux": "electron-forge make --platform=\"linux\"",
+    "make:mac": "electron-forge make --platform=\"darwin\""
   },
   "eslintConfig": {
     "extends": [

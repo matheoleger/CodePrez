@@ -1,57 +1,67 @@
 import { useState, useEffect } from "react";
-import { useLocation, useNavigate } from 'react-router-dom';
-import { Slide } from '../../components/Slide';
-import "../../assets/css/SlideViewer.css"
-import { SlideShow } from './SlideShow';
+import { useLocation, useNavigate } from "react-router-dom";
+import "../../assets/css/SlideViewer.css";
+import { SlideShow } from "./SlideShow";
 
 export const SlideViewer = () => {
-    const [presentationData, setPresentationData] = useState<PresentationData>();
+    const [presentationData, setPresentationData] =
+        useState<PresentationData>();
 
-    const [executedCommandOutput, setExecutedCommandOutput] = useState<string>();
+    const [executedCommandOutput, setExecutedCommandOutput] =
+        useState<string>();
 
     const [showOuputCommand, setShowOuputCommand] = useState<boolean>(false);
 
-    const {state} = useLocation()
-    const navigate = useNavigate()
+    const { state } = useLocation();
+    const navigate = useNavigate();
 
     useEffect(() => {
-        window.api.setAppToFullScreen();
+        window.api.setAppToFullScreen(state);
         setPresentationData(state);
 
-        document.addEventListener("keydown", escapeListener)
-        document.getElementById('viewer-container')?.focus(); //To focus on the div when the component is mounted (to be scrollable with Space or Arrow)
+        document.addEventListener("keydown", escapeListener);
+        document.getElementById("viewer-container")?.focus(); //To focus on the div when the component is mounted (to be scrollable with Space or Arrow)
     }, [state]);
 
     const escapeListener = (e: any) => {
-        if(e.key == "Escape") {
+        if (e.key === "Escape") {
             closeViewer();
 
             //Remove listener to prevent multiple listener (we don't use {once: true} because of condition Escape)
-            document.removeEventListener("keydown", escapeListener); 
+            document.removeEventListener("keydown", escapeListener);
         }
-    }
+    };
 
     const closeViewer = () => {
         window.api.setAppToMaximized();
-        navigate("/prez", {state})
-    }
+        window.api.killDualScreen();
+        navigate("/prez", { state });
+    };
 
     return (
         <div className="viewer-container" id="viewer-container" tabIndex={-1}>
-            <div className={`executed-command-output ${showOuputCommand ? "show-output" : ""}`}>
-                <h5 onClick={() => setShowOuputCommand(!showOuputCommand)}><code>&gt;_ COMMAND OUPUT</code></h5>
+            <div
+                className={`executed-command-output ${
+                    showOuputCommand ? "show-output" : ""
+                }`}
+            >
+                <h5 onClick={() => setShowOuputCommand(!showOuputCommand)}>
+                    <code>&gt;_ COMMAND OUPUT</code>
+                </h5>
                 <pre>
-                    <span>{"> "}</span>{executedCommandOutput}
+                    <span>{"> "}</span>
+                    {executedCommandOutput}
                 </pre>
             </div>
-            <SlideShow 
-                config={presentationData?.presentationConfig} 
+            <SlideShow
+                config={presentationData?.presentationConfig}
                 content={
-                    (presentationData?.presentationFileContent.length 
-                        && typeof presentationData?.presentationFileContent !== "string") 
-                        ? presentationData?.presentationFileContent 
+                    presentationData?.presentationFileContent.length &&
+                    typeof presentationData?.presentationFileContent !==
+                        "string"
+                        ? presentationData?.presentationFileContent
                         : []
-                    }
+                }
                 style={presentationData?.presentationStyle}
                 slideScale="slideViewer"
                 setExecutedCommandOutput={setExecutedCommandOutput}
