@@ -1,13 +1,13 @@
-import { app, BrowserWindow, protocol } from "electron";
+import { app, BrowserWindow, protocol, screen } from "electron";
 import { join } from "path";
 import { createArchive } from "./src/main/createArchive";
 import { openFileDialog, saveFileDialog } from "./src/main/dialogs";
-import url from "url"
+import url from "url";
 import {
     deleteCodePrezTempFolder,
     openCodePrezArchive,
 } from "./src/main/openAndCloseCodePrezFiles";
-import { markdownRenderer } from "./src/main/markdownRenderer"
+import { markdownRenderer } from "./src/main/markdownRenderer";
 
 const createWindow = () => {
     const win = new BrowserWindow({
@@ -57,16 +57,39 @@ const createWindow = () => {
         win.webContents.send("set-codeprez-data", presentationData);
     });
 
+    let dual: BrowserWindow | null = null;
     //Set to maximize
     win.webContents.ipc.on("maximized-app", () => {
-        win.setFullScreen(false)
-    })
+        win.setFullScreen(false);
+        dual?.close();
+    });
 
     //Set to fullscreen
-    win.webContents.ipc.on("fullscreen-app", () => {
-        win.setFullScreen(true)
-    })
-    
+    win.webContents.ipc.on("fullscreen-app", (e, data) => {
+        win.setFullScreen(true);
+        let display = screen.getAllDisplays();
+        let externalDisplay = display.find((display) => {
+            return display.bounds.x !== 0 || display.bounds.y !== 0;
+        });
+        if (externalDisplay) {
+            dual = new BrowserWindow({
+                width: 800,
+                height: 600,
+                x: externalDisplay.bounds.x + 50,
+                y: externalDisplay.bounds.y + 50,
+                webPreferences: {
+                    preload: join(__dirname, "src/preload/preload.js"),
+                    nodeIntegration: false,
+                    contextIsolation: true,
+                },
+            });
+            dual.loadURL("http://localhost:3000");
+            dual.once("ready-to-show", async () => {
+                dual?.setFullScreen(true);
+                dual?.webContents.send("viewer-mode", { data });
+            });
+        }
+    });
 
     win.once("ready-to-show", async () => {
         win.show();
@@ -85,7 +108,9 @@ const separateAndRender = (data: any) => {
     const slides = data?.presentationFileContent?.split(/^---$/gm);
 
     const createSection = slides?.map((slide: any, index: any) => {
-        const dataMd: string = markdownRenderer(data.presentationPath).render(slide);
+        const dataMd: string = markdownRenderer(data.presentationPath).render(
+            slide
+        );
         return dataMd;
     });
     return createSection;
@@ -93,16 +118,17 @@ const separateAndRender = (data: any) => {
 
 const initialize = async () => {
     await app.whenReady().then(() => {
-        protocol.registerFileProtocol('codeprez', (request, callback) => {
+        protocol.registerFileProtocol("codeprez", (request, callback) => {
             try {
-                const filePath = url.fileURLToPath('file://' + request.url.slice('codeprez:/'.length))
-                callback(filePath)
+                const filePath = url.fileURLToPath(
+                    "file://" + request.url.slice("codeprez:/".length)
+                );
+                callback(filePath);
+            } catch (error) {
+                console.error(error);
+                callback("404");
             }
-            catch (error) {
-                console.error(error)
-                callback("404")
-            }
-        })
+        });
     });
     const win = createWindow();
 };
