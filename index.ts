@@ -74,30 +74,9 @@ const createWindow = () => {
         let externalDisplay = display.find((display) => {
             return display.bounds.x !== 0 || display.bounds.y !== 0;
         });
-        if (externalDisplay) {
-            dual = new BrowserWindow({
-                width: 800,
-                height: 600,
-                show: false,
-                x: externalDisplay.bounds.x + 50,
-                y: externalDisplay.bounds.y + 50,
-                webPreferences: {
-                    preload: join(__dirname, "src/preload/preload.js"),
-                    nodeIntegration: false,
-                    contextIsolation: true,
-                },
-            });
-            if (app.isPackaged) {
-                dual.loadFile("./build/index.html");
-            } else {
-                dual.loadURL("http://localhost:3000");
-            }
 
-            dual.once("ready-to-show", async () => {
-                dual?.setFullScreen(true);
-                dual?.webContents.send("viewer-mode", { data });
-                dual?.show();
-            });
+        if (externalDisplay) {
+            dual = createDualSplitWindow(data, externalDisplay);
         }
     });
 
@@ -108,15 +87,45 @@ const createWindow = () => {
     win.once("ready-to-show", async () => {
         win.show();
 
-        // const presentationData = await openCodePrezArchive("./src/main/example.codeprez");
+        if(process.argv.length > 1) { //Warning here for packaging/make ?
+            const presentationData = await openCodePrezArchive("./src/main/example.codeprez");
 
-        // win.webContents.send("set-codeprez-data", presentationData)
+            win.webContents.send("set-codeprez-data", presentationData)
+        }
     });
 
     win.on("close", () => deleteCodePrezTempFolder());
 
     return win;
 };
+
+const createDualSplitWindow = (data: any, externalDisplay: Electron.Display) => {
+    const dual = new BrowserWindow({
+        width: 800,
+        height: 600,
+        show: false,
+        x: externalDisplay.bounds.x + 50,
+        y: externalDisplay.bounds.y + 50,
+        webPreferences: {
+            preload: join(__dirname, "src/preload/preload.js"),
+            nodeIntegration: false,
+            contextIsolation: true,
+        },
+    });
+    if (app.isPackaged) {
+        dual.loadFile("./build/index.html");
+    } else {
+        dual.loadURL("http://localhost:3000");
+    }
+
+    dual.once("ready-to-show", async () => {
+        dual?.setFullScreen(true);
+        dual?.webContents.send("viewer-mode", { data });
+        dual?.show();
+    });
+
+    return dual;
+}
 
 const separateAndRender = (data: any) => {
     const slides = data?.presentationFileContent?.split(/^---$/gm);

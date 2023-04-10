@@ -75,26 +75,19 @@ const imageRendererRules = ({tokens, idx, options, env, self, presentationPath}:
     const regexForSrc = /\.\/assets/gm;
     const regexForImageType = /\.[0-9a-z]+$/i
 
-    // const srcWithPresentationPath = (src?.match(regexForSrc)) ? path.join("codeprez:/", presentationPath, src) : src
-
     const imageTypeMatch = src?.match(regexForImageType)
     const imageType = (imageTypeMatch) ? imageTypeMatch[0].slice(1) : "png";
 
-    console.log({imageTypeMatch, imageType})
-
-    // if(process.platform == "darwin" && imageType) {
-        
+    try {
         if(src?.match(regexForSrc)) {
             const imageContents = fs.readFileSync(path.join(presentationPath, src ?? ""), {encoding: 'base64'});
             token.attrSet('src', `data:image/${imageType};base64,${imageContents}`)
         } else {
             token.attrSet('src', src ?? "")
         }
-    // } else {
-    //     token.attrSet('src', srcWithPresentationPath || "")
-    // }
-
-    
+    } catch (e) {
+        console.error(e);
+    }
 
     return self.renderToken(tokens, idx, options)
 }
