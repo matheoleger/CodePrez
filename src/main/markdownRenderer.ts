@@ -73,9 +73,21 @@ const imageRendererRules = ({tokens, idx, options, env, self, presentationPath}:
     const src = token.attrGet("src");
 
     const regexForSrc = /\.\/assets/gm;
+    const regexForImageType = /\.[0-9a-z]+$/i
 
-    const srcWithPresentationPath = (src?.match(regexForSrc)) ? path.join("codeprez:/", presentationPath, src) : src
-    token.attrSet('src', srcWithPresentationPath || "")
+    const imageTypeMatch = src?.match(regexForImageType)
+    const imageType = (imageTypeMatch) ? imageTypeMatch[0].slice(1) : "png";
+
+    try {
+        if(src?.match(regexForSrc)) {
+            const imageContents = fs.readFileSync(path.join(presentationPath, src ?? ""), {encoding: 'base64'});
+            token.attrSet('src', `data:image/${imageType};base64,${imageContents}`)
+        } else {
+            token.attrSet('src', src ?? "")
+        }
+    } catch (e) {
+        console.error(e);
+    }
 
     return self.renderToken(tokens, idx, options)
 }
