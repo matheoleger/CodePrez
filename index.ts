@@ -71,8 +71,7 @@ const createWindow = () => {
     })
 
     win.webContents.ipc.on("execute-command", (e, data) => {
-        const output = executeCommand(data);
-        win.webContents.send("executed-command-output", output)
+         executeCommand(data); //Execute and send output data
     })
     
 

@@ -36,7 +36,7 @@ export const Slide = ({ children, slideScale, className, setExecutedCommandOutpu
 
         // window.api.sendExecuteCommand(command)
         if(setExecutedCommandOutput) {
-          window.api.sendExecuteCommand(command, setExecutedCommandOutput)
+          window.api.sendExecuteCommand(command, (data: string) => setExecutedCommandOutput(data))
         }
       })
     })

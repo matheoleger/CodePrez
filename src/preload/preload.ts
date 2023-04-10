@@ -31,7 +31,7 @@ contextBridge.exposeInMainWorld("api", {
         ipcRenderer.send("maximized-app")
     },
     sendExecuteCommand: (command: string, callback: Function) => {
-        ipcRenderer.send("execute-command", { command })
+        ipcRenderer.send("execute-command", command)
         ipcRenderer.once("executed-command-output", (e, data) => callback(data))
     },
     openFileDialog: (type: "md" | "css" | "env" | "assets", callback: Function) => {
