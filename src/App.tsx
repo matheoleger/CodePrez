@@ -1,24 +1,24 @@
-import React, { useEffect } from "react";
-import { NewPrez } from "./components/NewPrez";
-import "./assets/css/App.css";
-import { HashRouter, Route, Routes } from "react-router-dom";
-import { SideBar } from "./components/SideBar";
-import { Home } from "./components/Home";
-import { Presentation } from "./components/Presentation";
-import { SlideViewer } from "./renderer/components/SlideViewer";
-import "highlight.js/styles/github.css";
-import { DualScreen } from "./renderer/components/DualScreen";
+import React, { useEffect } from 'react';
+import { NewPrez } from './renderer/components/NewPrez';
+import './assets/css/App.css';
+import { HashRouter, Route, Routes } from 'react-router-dom';
+import { SideBar } from './renderer/components/SideBar';
+import { Home } from './renderer/components/Home';
+import { Presentation } from './renderer/components/Presentation';
+import { SlideViewer } from './renderer/components/SlideViewer';
+import 'highlight.js/styles/github.css';
+import { DualScreen } from './renderer/components/DualScreen';
 
 function App() {
     useEffect(() => {
-        document.title = "CodePrez";
+        document.title = 'CodePrez';
     }, []);
     return (
         <div
             style={{
-                backgroundColor: "#3A3939",
-                width: "100%",
-                height: "100%",
+                backgroundColor: '#3A3939',
+                width: '100%',
+                height: '100%',
             }}
         >
             <link
