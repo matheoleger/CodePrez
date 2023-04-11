@@ -116,7 +116,7 @@ const menu = Menu.buildFromTemplate([
             { role: 'unhide' },
             { type: 'separator' },
             { role: 'quit' }]
-    } : {},
+    } : { label: app.name },
     {
         label: "Fichier",
         submenu: [{
