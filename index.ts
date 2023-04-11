@@ -1,4 +1,4 @@
-import { app, BrowserWindow, protocol, screen } from "electron";
+import { app, BrowserWindow, Menu, protocol, screen } from "electron";
 import { join } from "path";
 import { createArchive } from "./src/main/createArchive";
 import { openFileDialog, saveFileDialog } from "./src/main/dialogs";
@@ -91,7 +91,7 @@ const createWindow = () => {
     win.once("ready-to-show", async () => {
         win.show();
 
-        if(process.argv.length > 1) { //Warning here for packaging/make ?
+        if (process.argv.length > 1) { //Warning here for packaging/make ?
             const presentationData = await openCodePrezArchive("./src/main/example.codeprez");
 
             win.webContents.send("set-codeprez-data", presentationData)
@@ -102,6 +102,38 @@ const createWindow = () => {
 
     return win;
 };
+
+const menu = Menu.buildFromTemplate([
+    process.platform === 'darwin' ? {
+        label: app.name,
+        submenu: [
+            { role: 'about' },
+            { type: 'separator' },
+            { role: 'services' },
+            { type: 'separator' },
+            { role: 'hide' },
+            { role: 'hideOthers' },
+            { role: 'unhide' },
+            { type: 'separator' },
+            { role: 'quit' }]
+    } : {},
+    {
+        label: "Fichier",
+        submenu: [{
+            label: "Ouvrir...",
+            accelerator: "CmdOrCtrl+O",
+            click: () => openFileDialog('codeprez')
+        },
+        {
+            role: process.env.NODE_ENV !== "production" ? 'toggleDevTools' : undefined
+        },
+        {
+            role: process.env.NODE_ENV !== "production" ? 'reload' : undefined
+        }
+        ]
+    }])
+
+Menu.setApplicationMenu(menu);
 
 const createDualSplitWindow = (data: any, externalDisplay: Electron.Display) => {
     const dual = new BrowserWindow({
@@ -156,7 +188,7 @@ const initialize = async () => {
             }
         });
     });
-    const win = createWindow();
+    createWindow();
 };
 
 app.on("window-all-closed", () => {
