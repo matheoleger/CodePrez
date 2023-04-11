@@ -1,9 +1,9 @@
 import { Outlet, useNavigate } from 'react-router-dom';
-import '../assets/css/SideBar.css';
-import CodePrezLogo from '../assets/logo.svg';
+import '../../assets/css/SideBar.css';
+import CodePrezLogo from '../../assets/logo.svg';
 import { NavigationButton } from './NavigationButton';
 
-export const SideBar = () => { 
+export const SideBar = () => {
   const navigate = useNavigate();
 
   const home = () => {

@@ -12,7 +12,6 @@ const decompressCodePrezArchive = async (
 ) => {
     try {
         const files = await decompress(archivePath, presentationPath);
-        // console.log(files.find((file) => file.path == "presentation.md")?.data.toString());
         return files;
     } catch (e) {
         console.error(e);
@@ -32,16 +31,16 @@ export const openCodePrezArchive = async (archivePath: string) => {
     if (!files) return;
 
     const presentationFileContent = files
-        .find((file) => file.path == "presentation.md")
+        .find((file) => file.path === "presentation.md")
         ?.data.toString();
 
     const plainPresentationConfig = files
-        .find((file) => file.path == "config.json")
+        .find((file) => file.path === "config.json")
         ?.data.toString();
     const presentationConfig = JSON.parse(plainPresentationConfig ?? "{}");
 
     const presentationStyle = files
-        .find((file) => file.path == "style.css")
+        .find((file) => file.path === "style.css")
         ?.data.toString();
 
     return { presentationConfig, presentationFileContent, presentationPath, presentationStyle };
@@ -52,7 +51,7 @@ export const deleteCodePrezTempFolder = async () => {
 
     try {
         fs.rmSync(presentationPath, { recursive: true });
-    } catch(e) {
+    } catch (e) {
         console.error(e);
         return;
     }
