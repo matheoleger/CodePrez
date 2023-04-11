@@ -53,3 +53,8 @@
     margin:1em;
     color:red;
 }
+
+.success {
+    margin: 1em;
+    color: var(--pink);
+}

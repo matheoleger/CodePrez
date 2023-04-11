@@ -14,6 +14,7 @@ export const NewPrez = () => {
   const [envFile, setEnvFile] = useState<string>('');
 
   const [error, setError] = useState<boolean>(false);
+  const [success, setSuccess] = useState<boolean>(false);
 
   const getFileName = (filePath: string) => {
     // eslint-disable-next-line no-useless-escape
@@ -55,6 +56,7 @@ export const NewPrez = () => {
       authors: arrayAuthors,
       title,
     });
+    setSuccess(true);
   };
   return (
     <div className="new-prez">
@@ -114,6 +116,9 @@ export const NewPrez = () => {
       <p>* Champs requis</p>
       {error && (
         <span className="error">Merci de remplir tous les champs requis</span>
+      )}
+      {success && (
+        <span className="success">Votre fichier .codeprez a été créé.</span>
       )}
       <button className="sendingButton" onClick={createCodePrez}>
         Générer la présentation
