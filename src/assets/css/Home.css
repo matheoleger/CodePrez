@@ -1,0 +1,42 @@
+.home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.buttons > button {
+    width:300px;
+    justify-content: center;
+}
+
+.buttons>.go-to-add-button{
+    margin-top:1em;
+    color:var(--white);
+    border-color: var(--white);
+}
+
+.buttons>.go-to-prez-button{
+    color:var(--black-grey);
+    border-color: var(--black-grey);
+    background-color: var(--pink);
+}
+
+.buttons>.go-to-prez-button:hover{
+    background-color: var(--black-grey);
+    color: var(--pink);
+    border-color: var(--pink);
+}
+
+.go-to-viewer-button {
+    color:var(--black-grey);
+    border-color: var(--black-grey);
+    background-color: var(--pink);
+}
+
+.go-to-viewer-button:hover {
+    background-color: var(--black-grey);
+    color: var(--pink);
+    border-color: var(--pink);
+}

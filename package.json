@@ -1,28 +1,66 @@
 {
-  "name": "code-prez",
+  "name": "codeprez",
   "version": "0.1.0",
   "private": true,
+  "description": "Présente ton giga code avec CodePrez !",
+  "main": "./dist/index.js",
+  "author": {
+    "name": "Mathéo LEGER",
+    "email": "matheo.leger@ynov.com"
+  },
+  "contributors": [
+    {
+      "name": "Olivia MOREAU",
+      "email": "olivia.moreau@ynov.com"
+    },
+    {
+      "name": "Elouan DUMONT",
+      "email": "elouan.dumont@ynov.com"
+    }
+  ],
+  "repository": {
+    "url": "https://github.com/matheoleger/CodePrez"
+  },
+  "homepage": "./",
+  "build": {
+    "productName": "CodePrez"
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^13.2.1",
+    "@types/archiver": "^5.3.2",
     "@types/jest": "^27.0.1",
     "@types/node": "^16.7.13",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
+    "archiver": "^5.3.1",
+    "decompress": "^4.2.1",
+    "electron-squirrel-startup": "^1.0.0",
+    "highlight.js": "^11.7.0",
+    "markdown-it": "^13.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^6.10.0",
     "react-scripts": "5.0.1",
+    "react-timer-hook": "^3.0.5",
     "typescript": "^4.4.2",
     "web-vitals": "^2.1.0"
   },
   "scripts": {
     "dev": "react-scripts start",
-    "electron:start": "electron .",
+    "electron:start": "electron ./dist",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "start": "node start.js"
+    "typescript:compiled": "npx tsc",
+    "start": "node start.js",
+    "forge:start": "electron-forge start",
+    "package": "yarn run build && npx tsc && electron-forge package",
+    "make": "yarn run build && npx tsc && electron-forge make",
+    "make:win": "electron-forge make --platform=\"win32\"",
+    "make:linux": "electron-forge make --platform=\"linux\"",
+    "make:mac": "electron-forge make --platform=\"darwin\""
   },
   "eslintConfig": {
     "extends": [
@@ -43,6 +81,14 @@
     ]
   },
   "devDependencies": {
+    "@electron-forge/cli": "^6.1.1",
+    "@electron-forge/maker-deb": "^6.1.1",
+    "@electron-forge/maker-rpm": "^6.1.1",
+    "@electron-forge/maker-squirrel": "^6.1.1",
+    "@electron-forge/maker-zip": "^6.1.1",
+    "@electron-forge/plugin-webpack": "^6.1.1",
+    "@types/decompress": "^4.2.4",
+    "@types/markdown-it": "^12.2.3",
     "electron": "^23.1.1"
   }
 }
