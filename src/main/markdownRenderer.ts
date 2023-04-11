@@ -7,11 +7,11 @@ import Token from "markdown-it/lib/token";
 import Renderer from "markdown-it/lib/renderer";
 
 type RendererRulesArguments = {
-    tokens: Token[], 
-    idx: number, 
-    options: MarkdownIt.Options, 
-    env: any, 
-    self: Renderer, 
+    tokens: Token[],
+    idx: number,
+    options: MarkdownIt.Options,
+    env: any,
+    self: Renderer,
     presentationPath: string
 }
 
@@ -26,7 +26,7 @@ export function markdownRenderer(presentationPath: string) {
         highlight: function (str: string, lang: string) {
             if (lang && hljs.getLanguage(lang)) {
                 try {
-                    if(lang == "bash") {
+                    if (lang === "bash") {
                         return (
                             '<pre class="hljs executable-command"><code class="command-to-execute">' +
                             hljs.highlight(str, {
@@ -45,7 +45,7 @@ export function markdownRenderer(presentationPath: string) {
                             "</code></pre>"
                         );
                     }
-                } catch (__) {}
+                } catch (__) { }
             }
 
             return (
@@ -59,15 +59,15 @@ export function markdownRenderer(presentationPath: string) {
     const md = MarkdownIt(markdownOptions);
 
     //Include images
-    md.renderer.rules.image = (tokens, idx, options, env, self) => imageRendererRules({tokens, idx, options, env, self, presentationPath});
+    md.renderer.rules.image = (tokens, idx, options, env, self) => imageRendererRules({ tokens, idx, options, env, self, presentationPath });
 
     //Include code via file
-    md.renderer.rules.link_open = (tokens, idx, options, env, self) => linkRendererRules({tokens, idx, options, env, self, presentationPath})
+    md.renderer.rules.link_open = (tokens, idx, options, env, self) => linkRendererRules({ tokens, idx, options, env, self, presentationPath })
 
     return md;
 }
 
-const imageRendererRules = ({tokens, idx, options, env, self, presentationPath}: RendererRulesArguments) => {
+const imageRendererRules = ({ tokens, idx, options, env, self, presentationPath }: RendererRulesArguments) => {
     const token = tokens[idx];
 
     const src = token.attrGet("src");
@@ -79,8 +79,8 @@ const imageRendererRules = ({tokens, idx, options, env, self, presentationPath}:
     const imageType = (imageTypeMatch) ? imageTypeMatch[0].slice(1) : "png";
 
     try {
-        if(src?.match(regexForSrc)) {
-            const imageContents = fs.readFileSync(path.join(presentationPath, src ?? ""), {encoding: 'base64'});
+        if (src?.match(regexForSrc)) {
+            const imageContents = fs.readFileSync(path.join(presentationPath, src ?? ""), { encoding: 'base64' });
             token.attrSet('src', `data:image/${imageType};base64,${imageContents}`)
         } else {
             token.attrSet('src', src ?? "")
@@ -92,23 +92,23 @@ const imageRendererRules = ({tokens, idx, options, env, self, presentationPath}:
     return self.renderToken(tokens, idx, options)
 }
 
-const linkRendererRules = ({tokens, idx, options, env, self, presentationPath}: RendererRulesArguments) => {
+const linkRendererRules = ({ tokens, idx, options, env, self, presentationPath }: RendererRulesArguments) => {
     const token = tokens[idx];
 
     const href = token.attrGet("href")
     const regexPathFile = /^\.\/(.+\.\w+)/gm;
     const relativeCodeFilePath = href?.match(regexPathFile) ?? [];
 
-    if(relativeCodeFilePath.length) {
+    if (relativeCodeFilePath.length) {
         const codeFilePath = path.join(presentationPath, relativeCodeFilePath[0] ?? "")
-        return codeFileRendererRules({codeFilePath: codeFilePath, href});
+        return codeFileRendererRules({ codeFilePath: codeFilePath, href });
     } else {
         return self.renderToken(tokens, idx, options);
     }
 
 }
 
-const codeFileRendererRules = ({codeFilePath, href}: CodeFileRendererRulesArguments) => {
+const codeFileRendererRules = ({ codeFilePath, href }: CodeFileRendererRulesArguments) => {
 
     const regexLineNumber = /#(\d+)-(\d+)/;
     const regexFileExtension = /\.(\w+)(?:#\d+-\d+)?$/;
@@ -119,18 +119,18 @@ const codeFileRendererRules = ({codeFilePath, href}: CodeFileRendererRulesArgume
 
     const fileExtension = href?.match(regexFileExtension) ?? [];
 
-    const file = fs.readFileSync(codeFilePath, { encoding: 'utf8' });    
-    const lines = file.split("\n").slice(Number(startNumber)-1, Number(endNumber));
+    const file = fs.readFileSync(codeFilePath, { encoding: 'utf8' });
+    const lines = file.split("\n").slice(Number(startNumber) - 1, Number(endNumber));
 
     const codeToDisplay = (lineNumbers.length) ? lines.join("\n") : file;
 
     // I must use a concatenate string instead of `` because of tabulation and break line
     return (
         "<pre class='hljs'><code>" +
-            hljs.highlight(codeToDisplay, {
-                    language: fileExtension[1] || "",
-                    ignoreIllegals: true,
-                }).value +
+        hljs.highlight(codeToDisplay, {
+            language: fileExtension[1] || "",
+            ignoreIllegals: true,
+        }).value +
         "</code></pre>"
-    )   
+    )
 }

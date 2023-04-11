@@ -1,5 +1,5 @@
 import HomeLogo from '../../assets/home_design.svg';
-import { NavigationButton } from './NavigationButton';
+import { NavigationButton } from '../components/NavigationButton';
 import '../../assets/css/Home.css';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';

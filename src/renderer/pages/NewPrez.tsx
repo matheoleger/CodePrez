@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import React from 'react';
 import '../../assets/css/NewPrez.css';
-import { ButtonAddFile } from './ButtonAddFile';
+import { ButtonAddFile } from '../components/ButtonAddFile';
 
 export const NewPrez = () => {
   const [title, setTitle] = useState('');

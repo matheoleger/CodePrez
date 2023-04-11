@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import '../../assets/css/Presentation.css';
 import { useLocation } from 'react-router-dom';
-import { NavigationButton } from './NavigationButton';
-import { SlideShow } from './SlideShow';
+import { NavigationButton } from '../components/NavigationButton';
+import { SlideShow } from '../components/SlideShow';
 
 export const Presentation = () => {
   const [presentationData, setPresentationData] = useState<PresentationData>();
