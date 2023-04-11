@@ -69,7 +69,6 @@ const createWindow = () => {
 
     //Set to fullscreen
     win.webContents.ipc.on("fullscreen-app", (e, data) => {
-        win.setFullScreen(true);
         let display = screen.getAllDisplays();
         let externalDisplay = display.find((display) => {
             return display.bounds.x !== 0 || display.bounds.y !== 0;
@@ -77,8 +76,13 @@ const createWindow = () => {
 
         if (externalDisplay) {
             dual = createDualSplitWindow(data, externalDisplay);
+            win.setPosition(externalDisplay.bounds.x + 50, externalDisplay.bounds.y + 50);
         }
+
+        win.setFullScreen(true);
+
     });
+
 
     win.webContents.ipc.on("execute-command", (e, data) => {
         executeCommand(data); //Execute and send output data
@@ -104,14 +108,13 @@ const createDualSplitWindow = (data: any, externalDisplay: Electron.Display) => 
         width: 800,
         height: 600,
         show: false,
-        x: externalDisplay.bounds.x + 50,
-        y: externalDisplay.bounds.y + 50,
         webPreferences: {
             preload: join(__dirname, "src/preload/preload.js"),
             nodeIntegration: false,
             contextIsolation: true,
         },
     });
+
     if (app.isPackaged) {
         dual.loadFile("./build/index.html");
     } else {
